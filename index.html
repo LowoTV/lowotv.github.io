@@ -59,15 +59,8 @@
         .out-of-bounds {
             color: red;
         }
-        .upgrade-icon {
-            width: 100px;
-            height: 100px;
-            display: block;
-            margin: 10px auto;
-            filter: grayscale(100%);
-        }
-        .active {
-            filter: none;
+        .hidden {
+            display: none;
         }
         .copyright {
             position: fixed;
@@ -81,25 +74,23 @@
 <body>
     <h1>Beast Handler Merge Calculator</h1>
     <p>Select Path:</p>
-    <select id="pathSelect" onchange="updateUpgradeIcon()">
+    <select id="pathSelect">
         <option value="top">Top Path (WIP)</option>
         <option value="middle" selected>Middle Path</option>
         <option value="bottom">Bottom Path (WIP)</option>
     </select>
     
     <p>Select Tier:</p>
-    <select id="tierSelect" onchange="checkPowerBounds(); updateUpgradeIcon();">
-        <option value="1">Tier 1 (WIP)</option>
-        <option value="2">Tier 2 (WIP)</option>
+    <select id="tierSelect" onchange="checkPowerBounds()">
+        <option value="1">Tier 1</option>
+        <option value="2">Tier 2</option>
         <option value="3" selected>Tier 3</option>
         <option value="4">Tier 4</option>
         <option value="5">Tier 5</option>
     </select>
-
-    <img id="upgradeIcon" class="upgrade-icon" src="" alt="Upgrade Icon">
-
+    
     <p id="powerLabel">Enter Current Power:</p>
-    <input type="number" id="powerInput" value="8" step="1" oninput="checkPowerBounds()">
+    <input type="number" id="powerInput" value="3" step="1" oninput="checkPowerBounds()">
     <br>
     <button onclick="calculateStats()">Calculate</button>
     <p id="results"></p>
@@ -107,20 +98,60 @@
     <div class="copyright">© 2025 Beast Handler Calculator | LowoTV</div>
     
     <script>
-        function updateUpgradeIcon() {
-            let path = document.getElementById("pathSelect").value;
-            let tier = document.getElementById("tierSelect").value;
+        function checkPowerBounds() {
+            let tier = document.getElementById('tierSelect').value;
+            let powerInput = document.getElementById('powerInput');
+            let powerLabel = document.getElementById('powerLabel');
             
-            let pathPrefix = path === "top" ? "10" : path === "middle" ? "01" : "00";
-            let iconPath = `icons/${pathPrefix}${tier}-BeastHandler.png`;
-            
-            let img = document.getElementById("upgradeIcon");
-            if (tier === '1' || tier === '2' || path === 'top' || path === 'bottom') {
-                img.classList.remove("active");
+            if (tier === '1') {
+                powerInput.classList.add('hidden');
+                powerLabel.classList.add('hidden');
             } else {
-                img.classList.add("active");
+                powerInput.classList.remove('hidden');
+                powerLabel.classList.remove('hidden');
             }
-            img.src = iconPath;
+        }
+
+        function calculateStats() {
+            let tier = document.getElementById('tierSelect').value;
+            let power = parseFloat(document.getElementById('powerInput').value);
+            let minPower, maxPower, basePierce, maxPierce, baseDamage, maxDamage, baseCooldown, maxCooldown;
+            let resultText = "";
+            
+            if (tier === '1') {
+                resultText = "Pierce: 6 <br> Damage: 2 <br> Attack Cooldown: 1.4s";
+            } else if (tier === '2') {
+                minPower = 3;
+                maxPower = 6;
+                basePierce = 10;
+                maxPierce = 12;
+                baseDamage = 6;
+                maxDamage = 7;
+                baseCooldown = 1;
+                maxCooldown = 0.85;
+            } else if (tier === '3') {
+                minPower = 8;
+                maxPower = 24;
+                basePierce = 14;
+                maxPierce = 35;
+                baseDamage = 9;
+                maxDamage = 27;
+                baseCooldown = 1;
+                maxCooldown = 0.6561;
+            } else {
+                document.getElementById('results').innerHTML = "WIP - Stats not available for this tier.";
+                return;
+            }
+            
+            if (tier !== '1') {
+                let percent = (power - minPower) / (maxPower - minPower);
+                let pierce = Math.floor(basePierce + (maxPierce - basePierce) * percent);
+                let damage = Math.floor(baseDamage + (maxDamage - baseDamage) * percent);
+                let cooldown = baseCooldown - ((baseCooldown - maxCooldown) * percent);
+                resultText = `Pierce: ${pierce} <br> Damage: ${damage} <br> Attack Cooldown: ${cooldown.toFixed(4)}s`;
+            }
+            
+            document.getElementById('results').innerHTML = resultText;
         }
     </script>
 </body>
