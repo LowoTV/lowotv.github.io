@@ -115,7 +115,7 @@
         function calculateStats() {
             let tier = document.getElementById('tierSelect').value;
             let power = parseFloat(document.getElementById('powerInput').value);
-            let minPower, maxPower, basePierce, maxPierce, baseDamage, maxDamage, baseCooldown, maxCooldown;
+            let minPower, maxPower, basePierce, maxPierce, baseDamage, maxDamage, baseCooldown, maxCooldown, baseAbilityPierce, maxAbilityPierce, baseAbilityDamage, maxAbilityDamage, baseAbilityCooldown, maxAbilityCooldown;
             let resultText = "";
             
             if (tier === '1') {
@@ -138,17 +138,52 @@
                 maxDamage = 27;
                 baseCooldown = 1;
                 maxCooldown = 0.6561;
+            } else if (tier === '4') {
+                minPower = 16;
+                maxPower = 64;
+                basePierce = 22;
+                maxPierce = 55;
+                baseDamage = 30;
+                maxDamage = 82;
+                baseCooldown = 1;
+                maxCooldown = 0.6561;
+                baseAbilityPierce = 400;
+                maxAbilityPierce = 433;
+                baseAbilityDamage = 150;
+                maxAbilityDamage = 202;
+                baseAbilityCooldown = 35;
+                maxAbilityCooldown = 10;
+            } else if (tier === '5') {
+                minPower = 36;
+                maxPower = 132;
+                basePierce = 90;
+                maxPierce = 600;
+                baseDamage = 800;
+                maxDamage = 1500;
+                baseCooldown = 1;
+                maxCooldown = 0.5;
+                baseAbilityPierce = 600;
+                maxAbilityPierce = 800;
+                baseAbilityDamage = 500;
+                maxAbilityDamage = 1000;
+                baseAbilityCooldown = 30;
+                maxAbilityCooldown = 8;
             } else {
                 document.getElementById('results').innerHTML = "WIP - Stats not available for this tier.";
                 return;
             }
             
-            if (tier !== '1') {
-                let percent = (power - minPower) / (maxPower - minPower);
-                let pierce = Math.floor(basePierce + (maxPierce - basePierce) * percent);
-                let damage = Math.floor(baseDamage + (maxDamage - baseDamage) * percent);
-                let cooldown = baseCooldown - ((baseCooldown - maxCooldown) * percent);
-                resultText = `Pierce: ${pierce} <br> Damage: ${damage} <br> Attack Cooldown: ${cooldown.toFixed(4)}s`;
+            let percent = (power - minPower) / (maxPower - minPower);
+            let pierce = Math.floor(basePierce + (maxPierce - basePierce) * percent);
+            let damage = Math.floor(baseDamage + (maxDamage - baseDamage) * percent);
+            let cooldown = baseCooldown - ((baseCooldown - maxCooldown) * percent);
+            let abilityPierce = baseAbilityPierce ? Math.floor(baseAbilityPierce + (maxAbilityPierce - baseAbilityPierce) * percent) : "N/A";
+            let abilityDamage = baseAbilityDamage ? Math.floor(baseAbilityDamage + (maxAbilityDamage - baseAbilityDamage) * percent) : "N/A";
+            let abilityCooldown = baseAbilityCooldown ? baseAbilityCooldown - ((baseAbilityCooldown - maxAbilityCooldown) * percent) : "N/A";
+            
+            resultText = `Pierce: ${pierce} <br> Damage: ${damage} <br> Attack Cooldown: ${cooldown.toFixed(4)}s`;
+            if (tier === '4' || tier === '5') {
+                resultText += `<br><br> Ability Pierce: ${abilityPierce} <br> Ability Damage: ${abilityDamage} <br> Ability Cooldown: ${abilityCooldown.toFixed(2)}s`;
             }
             
             document.getElementById('results').innerHTML = resultText;
