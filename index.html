@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beast Handler Merge Calculator</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-color: #1e1e2e;
+            color: #f8f8f2;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        select, input, button {
+            margin: 10px;
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+        select, input {
+            background-color: #282a36;
+            color: #f8f8f2;
+        }
+        select {
+            appearance: none;
+            padding: 12px 20px;
+            border: 2px solid #ff79c6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        select:hover {
+            border-color: #bd93f9;
+        }
+        button {
+            background-color: #ff79c6;
+            color: #1e1e2e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #bd93f9;
+        }
+        #results {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Beast Handler Merge Calculator</h1>
+    <p>Select Path:</p>
+    <select id="pathSelect" onchange="updateTierOptions()">
+        <option value="top">Top Path (WIP)</option>
+        <option value="middle" selected>Middle Path</option>
+        <option value="bottom">Bottom Path (WIP)</option>
+    </select>
+    
+    <p>Select Tier:</p>
+    <select id="tierSelect">
+        <option value="1">Tier 1 (WIP)</option>
+        <option value="2">Tier 2 (WIP)</option>
+        <option value="3" selected>Tier 3</option>
+        <option value="4">Tier 4 (WIP)</option>
+        <option value="5">Tier 5 (WIP)</option>
+    </select>
+    
+    <p>Enter Current Power:</p>
+    <input type="number" id="powerInput" min="8" max="24" value="8">
+    <button onclick="calculateStats()">Calculate</button>
+    <p id="results"></p>
+
+    <script>
+        function updateTierOptions() {
+            let path = document.getElementById('pathSelect').value;
+            let tierSelect = document.getElementById('tierSelect');
+            
+            tierSelect.innerHTML = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                let option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Tier ${i} ${i === 3 && path === 'middle' ? '' : '(WIP)'}`;
+                if (i === 3 && path === 'middle') option.selected = true;
+                tierSelect.appendChild(option);
+            }
+        }
+
+        function calculateStats() {
+            let path = document.getElementById('pathSelect').value;
+            let tier = document.getElementById('tierSelect').value;
+            let power = parseFloat(document.getElementById('powerInput').value);
+
+            if (path !== 'middle' || tier !== '3') {
+                document.getElementById('results').innerHTML = "WIP - Stats not available for this path/tier.";
+                return;
+            }
+
+            let minPower = 8, maxPower = 24;
+            let basePierce = 14, maxPierce = 35;
+            let baseDamage = 9, maxDamage = 27;
+            let baseCooldown = 1, maxCooldown = 0.6561;
+            let baseStunBonus = 3, maxStunBonus = 9;
+            
+            let percent = (power - minPower) / (maxPower - minPower);
+            let pierce = basePierce + Math.floor((maxPierce - basePierce) * percent);
+            let damage = baseDamage + Math.floor((maxDamage - baseDamage) * percent);
+            let cooldown = baseCooldown - ((baseCooldown - maxCooldown) * percent);
+            let stunBonusDamage = baseStunBonus + Math.floor((maxStunBonus - baseStunBonus) * percent);
+            
+            document.getElementById('results').innerHTML = `Pierce: ${pierce} <br> Damage: ${damage} <br> Attack Cooldown: ${cooldown.toFixed(4)}s <br> Bonus Stun Damage: ${stunBonusDamage}`;
+        }
+    </script>
+</body>
+</html>
