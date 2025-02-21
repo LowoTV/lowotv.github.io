@@ -56,39 +56,18 @@
             margin-top: 20px;
             font-weight: bold;
         }
-        .settings-icon {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            font-size: 1.5em;
-            color: black;
-            cursor: pointer;
-            transition: 0.3s;
+        .out-of-bounds {
+            color: red;
         }
-        .settings-icon:hover {
-            color: #bd93f9;
+        .upgrade-icon {
+            width: 100px;
+            height: 100px;
+            display: block;
+            margin: 10px auto;
+            filter: grayscale(100%);
         }
-        .settings-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-        }
-        .settings-panel {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #282a36;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 1001;
+        .active {
+            filter: none;
         }
         .copyright {
             position: fixed;
@@ -102,61 +81,45 @@
 <body>
     <h1>Beast Handler Merge Calculator</h1>
     <p>Select Path:</p>
-    <select id="pathSelect" onchange="updateTierOptions()">
+    <select id="pathSelect" onchange="updateUpgradeIcon()">
         <option value="top">Top Path (WIP)</option>
         <option value="middle" selected>Middle Path</option>
         <option value="bottom">Bottom Path (WIP)</option>
     </select>
     
     <p>Select Tier:</p>
-    <select id="tierSelect" onchange="updatePowerLimits()">
+    <select id="tierSelect" onchange="checkPowerBounds(); updateUpgradeIcon();">
         <option value="1">Tier 1 (WIP)</option>
         <option value="2">Tier 2 (WIP)</option>
         <option value="3" selected>Tier 3</option>
         <option value="4">Tier 4</option>
-        <option value="5">Tier 5 (WIP)</option>
+        <option value="5">Tier 5</option>
     </select>
-    
-    <p>Enter Current Power:</p>
-    <input type="number" id="powerInput" value="8" step="1">
+
+    <img id="upgradeIcon" class="upgrade-icon" src="" alt="Upgrade Icon">
+
+    <p id="powerLabel">Enter Current Power:</p>
+    <input type="number" id="powerInput" value="8" step="1" oninput="checkPowerBounds()">
     <br>
     <button onclick="calculateStats()">Calculate</button>
     <p id="results"></p>
     
-    <div class="settings-icon" onclick="toggleSettings()">⚙️</div>
     <div class="copyright">© 2025 Beast Handler Calculator | LowoTV</div>
     
     <script>
-        function calculateStats() {
-            let power = parseFloat(document.getElementById('powerInput').value);
-            let tier = document.getElementById('tierSelect').value;
-            let minPower = tier === '3' ? 8 : 16;
-            let maxPower = tier === '3' ? 24 : 64;
-            let percent = (power - minPower) / (maxPower - minPower);
-
-            let basePierce = tier === '3' ? 14 : 22;
-            let maxPierce = tier === '3' ? 35 : 55;
-            let baseDamage = tier === '3' ? 9 : 30;
-            let maxDamage = tier === '3' ? 27 : 82;
-            let baseCooldown = 1, maxCooldown = 0.6561;
-            let baseStunBonus = tier === '3' ? 3 : 8;
-            let maxStunBonus = tier === '3' ? 9 : 25;
+        function updateUpgradeIcon() {
+            let path = document.getElementById("pathSelect").value;
+            let tier = document.getElementById("tierSelect").value;
+            let iconPath = `icons/${tier}-BeastHandler.png`;
+            let img = document.getElementById("upgradeIcon");
             
-            let pierce = Math.floor(basePierce + (maxPierce - basePierce) * percent);
-            let damage = Math.floor(baseDamage + (maxDamage - baseDamage) * percent);
-            let cooldown = baseCooldown - ((baseCooldown - maxCooldown) * percent);
-            let stunBonusDamage = Math.floor(baseStunBonus + (maxStunBonus - baseStunBonus) * percent);
-            
-            let resultText = `Pierce: ${pierce} <br> Damage: ${damage} <br> Attack Cooldown: ${cooldown.toFixed(4)}s <br> Bonus Stun Damage: ${stunBonusDamage}`;
-            
-            if (tier === '4') {
-                let abilityPierce = Math.floor(400 + (433 - 400) * percent);
-                let abilityDamage = Math.floor(150 + (202 - 150) * percent);
-                let abilityCooldown = 35 - (0.3439 * percent);
-                resultText += `<br><br> Ability Pierce: ${abilityPierce} <br> Ability Damage: ${abilityDamage} <br> Ability Cooldown: ${abilityCooldown.toFixed(4)}s`;
+            if (tier === '1' || tier === '2' || path === 'top' || path === 'bottom') {
+                img.classList.remove("active");
+            } else {
+                img.classList.add("active");
             }
             
-            document.getElementById('results').innerHTML = resultText;
+            img.src = iconPath;
         }
     </script>
 </body>
