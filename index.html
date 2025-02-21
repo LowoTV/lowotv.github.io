@@ -56,6 +56,47 @@
             margin-top: 20px;
             font-weight: bold;
         }
+        .settings-icon {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1.5em;
+            color: black;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .settings-icon:hover {
+            color: #bd93f9;
+        }
+        .settings-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .settings-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #282a36;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1001;
+        }
+        .copyright {
+            position: fixed;
+            bottom: 5px;
+            right: 10px;
+            font-size: 0.8em;
+            color: #888;
+        }
     </style>
 </head>
 <body>
@@ -68,58 +109,54 @@
     </select>
     
     <p>Select Tier:</p>
-    <select id="tierSelect">
+    <select id="tierSelect" onchange="updatePowerLimits()">
         <option value="1">Tier 1 (WIP)</option>
         <option value="2">Tier 2 (WIP)</option>
         <option value="3" selected>Tier 3</option>
-        <option value="4">Tier 4 (WIP)</option>
+        <option value="4">Tier 4</option>
         <option value="5">Tier 5 (WIP)</option>
     </select>
     
     <p>Enter Current Power:</p>
-    <input type="number" id="powerInput" min="8" max="24" value="8">
+    <input type="number" id="powerInput" value="8" step="1">
+    <br>
     <button onclick="calculateStats()">Calculate</button>
     <p id="results"></p>
-
+    
+    <div class="settings-icon" onclick="toggleSettings()">⚙️</div>
+    <div class="copyright">© 2025 Beast Handler Calculator | LowoTV</div>
+    
     <script>
-        function updateTierOptions() {
-            let path = document.getElementById('pathSelect').value;
-            let tierSelect = document.getElementById('tierSelect');
-            
-            tierSelect.innerHTML = '';
-            
-            for (let i = 1; i <= 5; i++) {
-                let option = document.createElement('option');
-                option.value = i;
-                option.textContent = `Tier ${i} ${i === 3 && path === 'middle' ? '' : '(WIP)'}`;
-                if (i === 3 && path === 'middle') option.selected = true;
-                tierSelect.appendChild(option);
-            }
-        }
-
         function calculateStats() {
-            let path = document.getElementById('pathSelect').value;
-            let tier = document.getElementById('tierSelect').value;
             let power = parseFloat(document.getElementById('powerInput').value);
-
-            if (path !== 'middle' || tier !== '3') {
-                document.getElementById('results').innerHTML = "WIP - Stats not available for this path/tier.";
-                return;
-            }
-
-            let minPower = 8, maxPower = 24;
-            let basePierce = 14, maxPierce = 35;
-            let baseDamage = 9, maxDamage = 27;
-            let baseCooldown = 1, maxCooldown = 0.6561;
-            let baseStunBonus = 3, maxStunBonus = 9;
-            
+            let tier = document.getElementById('tierSelect').value;
+            let minPower = tier === '3' ? 8 : 16;
+            let maxPower = tier === '3' ? 24 : 64;
             let percent = (power - minPower) / (maxPower - minPower);
-            let pierce = basePierce + Math.floor((maxPierce - basePierce) * percent);
-            let damage = baseDamage + Math.floor((maxDamage - baseDamage) * percent);
-            let cooldown = baseCooldown - ((baseCooldown - maxCooldown) * percent);
-            let stunBonusDamage = baseStunBonus + Math.floor((maxStunBonus - baseStunBonus) * percent);
+
+            let basePierce = tier === '3' ? 14 : 22;
+            let maxPierce = tier === '3' ? 35 : 55;
+            let baseDamage = tier === '3' ? 9 : 30;
+            let maxDamage = tier === '3' ? 27 : 82;
+            let baseCooldown = 1, maxCooldown = 0.6561;
+            let baseStunBonus = tier === '3' ? 3 : 8;
+            let maxStunBonus = tier === '3' ? 9 : 25;
             
-            document.getElementById('results').innerHTML = `Pierce: ${pierce} <br> Damage: ${damage} <br> Attack Cooldown: ${cooldown.toFixed(4)}s <br> Bonus Stun Damage: ${stunBonusDamage}`;
+            let pierce = Math.floor(basePierce + (maxPierce - basePierce) * percent);
+            let damage = Math.floor(baseDamage + (maxDamage - baseDamage) * percent);
+            let cooldown = baseCooldown - ((baseCooldown - maxCooldown) * percent);
+            let stunBonusDamage = Math.floor(baseStunBonus + (maxStunBonus - baseStunBonus) * percent);
+            
+            let resultText = `Pierce: ${pierce} <br> Damage: ${damage} <br> Attack Cooldown: ${cooldown.toFixed(4)}s <br> Bonus Stun Damage: ${stunBonusDamage}`;
+            
+            if (tier === '4') {
+                let abilityPierce = Math.floor(400 + (433 - 400) * percent);
+                let abilityDamage = Math.floor(150 + (202 - 150) * percent);
+                let abilityCooldown = 35 - (0.3439 * percent);
+                resultText += `<br><br> Ability Pierce: ${abilityPierce} <br> Ability Damage: ${abilityDamage} <br> Ability Cooldown: ${abilityCooldown.toFixed(4)}s`;
+            }
+            
+            document.getElementById('results').innerHTML = resultText;
         }
     </script>
 </body>
