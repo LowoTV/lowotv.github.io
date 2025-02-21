@@ -110,15 +110,16 @@
         function updateUpgradeIcon() {
             let path = document.getElementById("pathSelect").value;
             let tier = document.getElementById("tierSelect").value;
-            let iconPath = `icons/${tier}-BeastHandler.png`;
-            let img = document.getElementById("upgradeIcon");
             
+            let pathPrefix = path === "top" ? "10" : path === "middle" ? "01" : "00";
+            let iconPath = `icons/${pathPrefix}${tier}-BeastHandler.png`;
+            
+            let img = document.getElementById("upgradeIcon");
             if (tier === '1' || tier === '2' || path === 'top' || path === 'bottom') {
                 img.classList.remove("active");
             } else {
                 img.classList.add("active");
             }
-            
             img.src = iconPath;
         }
     </script>
