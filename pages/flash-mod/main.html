@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LowoTV's Magnificent BTD5F Mod</title>   
+    <link rel="icon" type="image/png" href="../../thumbnails/Favicon.png">
+    <link rel="stylesheet" href="../../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <h1>LowoTV's Magnificent BTD5F Mod</h1>
+    <p>
+        Welcome to my <strong>Bloons TD 5 Flash Mod!</strong>
+        This is my first attempt at <strong>modding BTD5F</strong>.<br>
+        Here are the versions of my mod (if you want them for whatever reason).
+    </p>
+    <div class="version-list">
+        <ul id="versions"></ul>
+    </div>
+    <script>
+    fetch("versions/versioninfo.json")
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("versions");
+        data.versions.forEach(v => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div class="version-item">
+              <div class="thumb-wrapper">
+                <a href="${v.path}">
+                  <img src="${v.thumbnail}" alt="${v.version_number}" class="version-thumb">
+                  <div class="hover-desc">${v.version_description}</div>
+                </a>
+              </div>
+              <div class="version-number">${v.version_number}</div>
+            </div>
+          `;
+          list.appendChild(li);
+        });
+      });
+    </script>
+    <script src="../../parallax.js"></script>
+    <div class="copyright">Whats a ©?</div>
+</body>
+</html>

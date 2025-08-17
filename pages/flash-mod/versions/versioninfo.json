@@ -1,0 +1,12 @@
+{
+  "versions": [
+    {
+        "version_number": "1.0.0",
+        "version_type": "Release",
+        "version_description": "The first version of the mod, where I started making initial changes.\nWelcome to the beginning of my Flash Modding Journey!",
+        "date": "16-8-2025",
+        "path": "versions/1.0.0/version.html",
+        "thumbnail": "../../thumbnails/LTVMBTD5FM v1.0.0.png"
+    }
+  ]
+}

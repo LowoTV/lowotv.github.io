@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LowoTV's Magnificent BTD5F Mod</title>   
+    <link rel="icon" type="image/png" href="../../thumbnails/Favicon.png">
+    <link rel="stylesheet" href="../../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <h1><del>LowoTV's Marvelous BTD5S Mod</del></h1>
+    <p>
+        Welcome to my <strong>Bloons TD 5 <del>Mobile</del> Steam Mod!</strong><br>
+        This is <strong>NOT</strong> my first attempt at <strong>modding BTD5S</strong>. (It's my second)<br>
+        This shit is <strong>NOT READY YET</strong>.<br>
+        <sub>It would come out 2027 lolol.</sub>
+    </p>
+    <div class="version-list">
+        <ul id="versions"></ul>
+    </div>
+    <script>
+    fetch("versions/versioninfo.json")
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("versions");
+        data.versions.forEach(v => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div class="version-item">
+              <div class="thumb-wrapper">
+                <a href="${v.path}">
+                  <img src="${v.thumbnail}" alt="${v.version_number}" class="version-thumb">
+                  <div class="hover-desc">${v.version_description}</div>
+                </a>
+              </div>
+              <div class="version-number">${v.version_number}</div>
+            </div>
+          `;
+          list.appendChild(li);
+        });
+      });
+    </script>
+    <script src="../../parallax.js"></script>
+    <div class="copyright">Whats a ©?</div>
+</body>
+</html>
