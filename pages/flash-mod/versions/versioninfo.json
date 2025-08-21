@@ -8,5 +8,23 @@
         "path": "versions/1.0.0/version.html",
         "thumbnail": "../../thumbnails/LTVMBTD5FM v1.0.0.png"
     }
+  ],
+  "planned_versions": [
+    {
+        "version_number": "2.0.0",
+        "version_type": "Major",
+        "version_description": "The second version of the mod (i.e The mod's first update).\n\nWhere I finally add something instead of changing lmao.",
+        "date": "21-8-2025",
+        "path": "versions/2.0.0/version.html",
+        "thumbnail": "../../thumbnails/LTVMBTD5FM v2.0.0.png"
+    },
+    {
+        "version_number": "3.0.0",
+        "version_type": "Major",
+        "version_description": "The third version, where I focus on adding Wall of Fire to the apprentice.",
+        "date": "31-12-2025",
+        "path": "versions/3.0.0/version.html",
+        "thumbnail": "../../thumbnails/LTVMBTD5FM v3.0.0.png"
+    }
   ]
 }

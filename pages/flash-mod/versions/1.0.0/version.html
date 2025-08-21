@@ -11,11 +11,11 @@
 <body>
     <h1>Version 1.0.0</h1>
     <div class="content" id="markdown-content">
-        Loading content...
+        Loading... (If you see this for long then thats a skill issue on your part).....
     </div>
 
     <script>
-        fetch('v1-0-0.md')
+        fetch('notes.md')
             .then(response => {
                 if (!response.ok) throw new Error('HTTP ' + response.status);
                 return response.text();
@@ -24,7 +24,7 @@
                 document.getElementById('markdown-content').innerHTML = marked.parse(text);
             })
             .catch(err => {
-                document.getElementById('markdown-content').innerHTML = 'Failed to load content.';
+                document.getElementById('markdown-content').innerHTML = 'Failed to load conte- Wait how the shit did that happen!? (Skill issue on my part, my bad).';
                 console.error(err);
             });
     </script>
