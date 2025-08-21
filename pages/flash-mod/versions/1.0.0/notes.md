@@ -21,8 +21,6 @@ Welcome to the first version of my **Bloons TD 5 Flash** mod! I don't really hav
 ### Boomerang Thrower
 - **Red Hot Rangs** now gives +1bonus damage to all attacks (except orbital glaives).
 - **Turbo Charge** Ability attack speed increased from 5× → 7×
-### Ninja Monkey
-- **Sabotage Supply Lines** Ability affects all bloons, including those that have existed for more than 10 seconds.
 ### Glue Gunner
 - **Bloon Dissolver**
   - Price reduced from $3,300 → $2,250
@@ -45,7 +43,6 @@ Welcome to the first version of my **Bloons TD 5 Flash** mod! I don't really hav
   - Price increased from $16,500 → $20,000
 - **Super Range** now gives a pierce bonus from +1
 - **Epic Range** now gives a pierce bonus from +2 (including previous upgrades)
-- **Technological Terror** now gives a damage bonus from +2
 ### Monkey Apprentice
 - **Lightning Bolt**
   - Damage increased from 1 → 2
@@ -86,6 +83,8 @@ Welcome to the first version of my **Bloons TD 5 Flash** mod! I don't really hav
   * Max Capacity reduced from $20,000 → $15,000
   * Price increased from $5,500 → $6,000
 ## Reworks
+### Ninja Monkey
+- **Sabotage Supply Lines** Ability affects all bloons, including those that have existed for more than 10 seconds.
 ### Ice Monkey
 - **Absolute Zero** Ability applies permafrost to MOAB-Class bloons but at a reduced amount:
   - **MOABs** have a permafrost slow of 42.5% (It moves at 57.5% speed)
