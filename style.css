@@ -193,4 +193,48 @@ img {
   filter: grayscale(100%); /* gray out */
 }
 
+code, pre {
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+
+/* Code block container */
+pre code.language-as3 {
+    display: block;
+    background: rgba(0,0,0,0.85);
+    color: #f8f8f2;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.95em;
+    line-height: 1.4em;
+    text-align: left;
+    white-space: pre;
+}
+
+/* Highlighting for basic syntax */
+pre code.language-as3 .keyword {
+    color: #66d9ef; /* bright cyan */
+    font-weight: bold;
+}
+
+pre code.language-as3 .string {
+    color: #e6db74; /* yellow */
+}
+
+pre code.language-as3 .comment {
+    color: #75715e; /* gray */
+    font-style: italic;
+}
+
+pre code.language-as3 .number {
+    color: #ae81ff; /* purple */
+}
+
+/* Inline code */
+code.language-as3 {
+    background: rgba(0,0,0,0.7);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
 

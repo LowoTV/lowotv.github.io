@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>(v2.0.0) LowoTV's Magnificent BTD5F Mod</title>
+    <title>LowoTV's Blog or Something</title>
     <link rel="icon" type="image/png" href="../../../../thumbnails/Favicon.png">
     <link rel="stylesheet" href="../../../../style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <h1>Version 2.0.0</h1>
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-as3.min.js"></script>
+    <h1>LowoTV's Blog or Something</h1>
     <div class="content" id="markdown-content">
         Loading... (If you see this for long then thats a skill issue on your part).....
     </div>
 
     <script>
-        fetch('notes.md')
+        fetch('blog.md')
             .then(response => {
                 if (!response.ok) throw new Error('HTTP ' + response.status);
                 return response.text();
             })
             .then(text => {
                 document.getElementById('markdown-content').innerHTML = marked.parse(text);
+                Prism.highlightAll();
             })
             .catch(err => {
                 document.getElementById('markdown-content').innerHTML = 'Failed to load conte- Wait how the shit did that happen!? (Skill issue on my part, my bad).';
                 console.error(err);
             });
+            
     </script>
-    <script src="../../../../parallax.js"></script>
+    <script src="../../parallax.js"></script>
     <div class="copyright">Whats a ©?</div>
 </body>
 </html>
